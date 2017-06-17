@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/layout_interest_recommend_item"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/item_bg"
+    android:orientation="vertical">
+
+
+    <ImageView
+        android:id="@+id/lamp_image"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:scaleType="center"
+        android:layout_gravity="center_horizontal"
+        android:src = "@drawable/device_status_poweron"
+        />
+
+    <TextView
+        android:id="@+id/tv_interest_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="5dp"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:paddingEnd="13.3dp"
+        android:paddingStart="13.3dp"
+        android:textColor="@color/white"
+        android:textSize="20sp" />
+
+    <LinearLayout
+        android:id="@+id/switch_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_gravity="center_horizontal"
+        >
+
+      <Button
+          android:id="@+id/lamp_switch"
+          android:layout_width="50dp"
+          android:layout_height="100dp"
+          android:drawableTop="@drawable/menu_switch_white"
+          android:padding="5dp"
+          android:text="开关"
+          android:background="@android:color/transparent"
+          />
+        <Button
+            android:id="@+id/lamp_switch_delay"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:padding="5dp"
+            android:text="延时开关"
+            android:drawableTop="@drawable/device_card_view_time_lag_background"
+            android:background="@android:color/transparent"
+            />
+
+
+    </LinearLayout>
+
+</LinearLayout>
