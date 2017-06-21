@@ -2,6 +2,8 @@
 <resources>
 
     <string name="hello">Hello World, MainActivity!</string>
-    <string name="app_name">LightsManager</string>
+    <string name="app_name">监视器</string>
+    <string name="edit_lamp_name">编辑名称</string>
+    <string name="edit_lamp_name_finish">完成编辑</string>
 
 </resources>

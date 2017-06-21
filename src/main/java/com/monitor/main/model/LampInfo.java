@@ -9,6 +9,16 @@ public class LampInfo {
     private String lampName;
     private int lampStatus;//灯的状态 0 代表关 1 代表 开
 
+    public boolean isEditLampName() {
+        return isEditLampName;
+    }
+
+    public void setEditLampName(boolean editLampName) {
+        isEditLampName = editLampName;
+    }
+
+    private boolean isEditLampName = false;
+
     public String getLampCode() {
         return lampCode;
     }

@@ -16,18 +16,39 @@
         android:src = "@drawable/device_status_poweron"
         />
 
-    <TextView
-        android:id="@+id/tv_interest_title"
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="5dp"
-        android:ellipsize="end"
-        android:maxLines="1"
-        android:paddingEnd="13.3dp"
-        android:paddingStart="13.3dp"
-        android:textColor="@color/white"
-        android:textSize="20sp" />
+        >
+        <EditText
+            android:id="@+id/tv_interest_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="灯的名称"
+            android:enabled="false"
+            android:singleLine="true"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            />
+
+        <TextView
+            android:id="@+id/tv_interest_title_code"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:paddingEnd="13.3dp"
+            android:paddingStart="13.3dp"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            />
+    </LinearLayout>
+
+
 
     <LinearLayout
         android:id="@+id/switch_layout"

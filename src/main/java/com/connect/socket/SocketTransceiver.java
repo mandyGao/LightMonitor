@@ -2,13 +2,10 @@ package com.connect.socket;
 
 import android.util.Log;
 
-import java.io.BufferedReader;
-import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.util.ArrayList;
@@ -74,6 +71,33 @@ public abstract class SocketTransceiver implements Runnable {
 		}
 	}
 
+
+	/**
+	 * 发送字符串
+	 *
+	 * @param cmd
+	 *            字符串
+	 * @return 发送成功返回true
+	 */
+	public boolean send(int[] cmd) {
+		if (out != null) {
+			try {
+
+				for (int value:cmd
+					 ) {
+					int byteCmd = value & 0xff;
+					out.write(byteCmd);
+					Log.v("gao"," send bytes:" + Integer.toHexString(byteCmd) );
+				}
+				out.flush();
+				return true;
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return false;
+	}
+
 	/**
 	 * 发送字符串
 	 * 
@@ -133,7 +157,7 @@ public abstract class SocketTransceiver implements Runnable {
 	@Override
 	public void run() {
 
-		Log.v("gao","run....");
+//		Log.v("gao","run....");
 
 		List dataByteList = new ArrayList();
 		try {
@@ -145,7 +169,7 @@ public abstract class SocketTransceiver implements Runnable {
 		}
 		while (runFlag) {
 
-			Log.v("gao","runFlag s....");
+//			Log.v("gao","runFlag s....");
 			try {
 
 				//byte[] data = new byte[BUFFER_SIZE];

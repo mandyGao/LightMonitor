@@ -10,8 +10,10 @@
 
     <application
         android:icon="@drawable/ic_launcher"
+        android:name=".MyApplication"
         android:label="@string/app_name" >
         <activity
+            android:theme="@style/AppTheme"
             android:name=".MainActivity"
             android:label="@string/app_name"
             >
@@ -21,6 +23,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        
+        <receiver android:name=".view.LampListAdapter$TimerTaskReceiver">
+            <intent-filter>
+                <action android:name="com.monitor.main.TIME_TASK" />
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>
