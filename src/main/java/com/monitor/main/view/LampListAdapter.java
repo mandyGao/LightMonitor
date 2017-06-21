@@ -19,6 +19,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
+import com.monitor.main.MainActivity;
 import com.monitor.main.MyLog;
 import com.monitor.main.R;
 import com.monitor.main.model.LampInfo;
@@ -35,10 +36,10 @@ public class LampListAdapter extends BaseAdapter {
 
     static MyLog log = new MyLog("LampListAdapter");
     private List<LampInfo> lampInfos;
-    private Context mContext;
+    private MainActivity mContext;
 
 
-    public LampListAdapter(Context mContext,List<LampInfo> lampInfos) {
+    public LampListAdapter(MainActivity mContext, List<LampInfo> lampInfos) {
         this.lampInfos = lampInfos;
         this.mContext = mContext;
     }
@@ -95,13 +96,14 @@ public class LampListAdapter extends BaseAdapter {
 
         switch (lampInfo.getLampStatus()) {
 
-            case 0:
+            case 0x02:
                 holder.mImageview.setImageResource(R.drawable.device_status_poweroff);
                 break;
-            case 1:
+            case 0x01:
                 holder.mImageview.setImageResource(R.drawable.device_status_poweron);
                 break;
             default:
+                holder.mImageview.setImageResource(R.drawable.device_status_poweroff);
                 break;
         }
 
@@ -109,10 +111,10 @@ public class LampListAdapter extends BaseAdapter {
         holder.powerSwitch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (lampInfo.getLampStatus() == 0) {
-                    setPowerOn(lampInfo,holder.mImageview,true);
+                if (lampInfo.getLampStatus() == 0x01) {
+                    setPowerOn(lampInfo,false);
                 } else {
-                    setPowerOn(lampInfo,holder.mImageview,false);
+                    setPowerOn(lampInfo,true);
                 }
             }
         });
@@ -171,12 +173,12 @@ public class LampListAdapter extends BaseAdapter {
                                 log.debug(timer.getDrawingTime());
 
 
-                                //创建Intent对象，action为ELITOR_CLOCK，附加信息为字符串“你该打酱油了”
                                 Intent intent = new Intent("com.monitor.main.TIME_TASK");
                                 intent.putExtra("position",position);
-
+                                intent.putExtra("code",lampInfo.getLampCode());
                                 //定义一个PendingIntent对象，PendingIntent.getBroadcast包含了sendBroadcast的动作。
                                 PendingIntent pi = PendingIntent.getBroadcast(mContext,0,intent,0);
+
 
                                 //AlarmManager对象,注意这里并不是new一个对象，Alarmmanager为系统级服务
                                 AlarmManager am = (AlarmManager)mContext.getSystemService(ALARM_SERVICE);
@@ -186,6 +188,7 @@ public class LampListAdapter extends BaseAdapter {
                                 Calendar calendar = Calendar.getInstance();
                                 calendar.set(Calendar.MINUTE,timer.getMinute());
                                 calendar.set(Calendar.HOUR_OF_DAY,timer.getHour());
+
                                 am.set(AlarmManager.RTC_WAKEUP,calendar.getTimeInMillis(),pi);
                             }
                         })
@@ -199,18 +202,13 @@ public class LampListAdapter extends BaseAdapter {
 
         holder.mEditText.setText(lampInfo.getLampName());
         holder.mEditText.setEnabled(lampInfo.isEditLampName());
-        holder.mTextView.setText(lampInfo.getLampCode());
+        holder.mTextView.setText("" + lampInfo.getLampCode());
         return convertView;
     }
 
-    private void setPowerOn(LampInfo info,ImageView imageView,boolean isPowerOn){
-        if(isPowerOn){
-            info.setLampStatus(1);
-            imageView.setImageResource(R.drawable.device_status_poweron);
-        }else {
-            info.setLampStatus(0);
-            imageView.setImageResource(R.drawable.device_status_poweroff);
-        }
+    private void setPowerOn(LampInfo info,boolean isPowerOn){
+        mContext.sendStr(MainActivity.getSwichCmd(info.getLampCode(),isPowerOn));
+        mContext.sendStr(MainActivity.readLampState(info.getLampCode()));
     }
 
 
@@ -221,6 +219,11 @@ public class LampListAdapter extends BaseAdapter {
             log.info("onReceive " + intent);
             log.info("context " + context);
 
+            if(MainActivity.socketTransceiver != null){
+                int code = intent.getIntExtra("code",-1);
+                MainActivity.socketTransceiver.send(MainActivity.getSwichCmd(code,false));
+                MainActivity.socketTransceiver.send(MainActivity.readLampState(code));
+            }
 
         }
     }

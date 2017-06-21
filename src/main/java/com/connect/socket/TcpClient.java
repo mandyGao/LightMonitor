@@ -2,6 +2,8 @@ package com.connect.socket;
 
 import android.util.Log;
 
+import com.monitor.main.MyLog;
+
 import java.net.InetAddress;
 import java.net.Socket;
 import java.util.List;
@@ -39,15 +41,17 @@ public abstract class TcpClient implements Runnable {
 		new Thread(this).start();
 	}
 
+	static MyLog log = new MyLog("TcpClient");
 	@Override
 	public void run() {
 		try {
+			log.info("begin create socket");
 			Socket socket = new Socket(hostIP, port);
 
 			transceiver = new SocketTransceiver(socket) {
 
 				@Override
-				public void onReceive(InetAddress addr, List list) {
+				public void onReceive(InetAddress addr, List<Integer> list) {
 					TcpClient.this.onReceive(this, list);
 				}
 
@@ -120,7 +124,7 @@ public abstract class TcpClient implements Runnable {
 	 * @param
 	 *
 	 */
-	public abstract void onReceive(SocketTransceiver transceiver, List list);
+	public abstract void onReceive(SocketTransceiver transceiver, List<Integer> list);
 
 	/**
 	 * 连接断开

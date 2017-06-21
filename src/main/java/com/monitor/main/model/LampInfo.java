@@ -5,7 +5,7 @@ package com.monitor.main.model;
  */
 public class LampInfo {
 
-    private String lampCode;
+    private int lampCode;
     private String lampName;
     private int lampStatus;//灯的状态 0 代表关 1 代表 开
 
@@ -19,11 +19,11 @@ public class LampInfo {
 
     private boolean isEditLampName = false;
 
-    public String getLampCode() {
+    public int getLampCode() {
         return lampCode;
     }
 
-    public void setLampCode(String lampCode) {
+    public void setLampCode(int lampCode) {
         this.lampCode = lampCode;
     }
 

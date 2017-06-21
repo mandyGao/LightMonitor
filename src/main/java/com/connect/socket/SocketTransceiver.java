@@ -2,6 +2,8 @@ package com.connect.socket;
 
 import android.util.Log;
 
+import com.monitor.main.MyLog;
+
 import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -23,6 +25,7 @@ public abstract class SocketTransceiver implements Runnable {
 	private boolean runFlag;
 	private static final int BUFFER_SIZE=12;
 
+	static MyLog log = new MyLog("SocketTranseiver");
 	/**
 	 * 实例化
 	 * 
@@ -31,6 +34,7 @@ public abstract class SocketTransceiver implements Runnable {
 	 */
 	public SocketTransceiver(Socket socket) {
 		this.socket = socket;
+		log.info("create SocketTransceiver and begin get InetAddress");
 		this.addr = socket.getInetAddress();
 	}
 
@@ -159,7 +163,7 @@ public abstract class SocketTransceiver implements Runnable {
 
 //		Log.v("gao","run....");
 
-		List dataByteList = new ArrayList();
+		List<Integer> dataByteList = new ArrayList();
 		try {
 			in = new DataInputStream(this.socket.getInputStream());
 			out = new DataOutputStream(this.socket.getOutputStream());
@@ -185,7 +189,8 @@ public abstract class SocketTransceiver implements Runnable {
 				//if (available != 0) {
 					byte data = dataInputStream.readByte();
 				    if (data != 0) {
-						dataByteList.add(Integer.toHexString(data));
+//						dataByteList.add(Integer.toHexString(data));
+						dataByteList.add(Integer.valueOf(data));
 					}
 				//}
 
@@ -241,7 +246,7 @@ public abstract class SocketTransceiver implements Runnable {
 	 * @param
 	 *
 	 */
-	public abstract void onReceive(InetAddress addr, List list);
+	public abstract void onReceive(InetAddress addr, List<Integer> list);
 
 	/**
 	 * 连接断开

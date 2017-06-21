@@ -36,6 +36,19 @@ public class ExampleUnitTest {
     }
 
 
+
+    @Test
+
+    public void ddd (){
+
+        System.out.println(0xaa);
+        System.out.println(
+              Integer.parseInt("aa",16)
+        );
+
+
+    }
+
     @Test
     public void testUnSigne(){
         int aa = 0xaa;
@@ -57,10 +70,6 @@ public class ExampleUnitTest {
 
 
             OutputStream outputStream = socket.getOutputStream();
-
-
-
-//            byte aa = 0xaa;
 
 
             outputStream.write(0x55 & 0xff);
@@ -102,7 +111,7 @@ public class ExampleUnitTest {
         System.out.println("test");
 
         try {
-            Socket socket = new Socket("10.10.10.1", 8080);
+            Socket socket = new Socket("192.168.99.243", 8000);
             System.out.println(socket);
 
 
